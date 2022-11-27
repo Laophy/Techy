@@ -68,9 +68,7 @@ ipcMain.on("loadscript", (event, data) => {
   const fileContent = content.toString();
 
   //Final string to return to client?
-  console.log(fileContent);
-
-  event.returnValue = fileContent;
+  console.log("SCRIPT FILE: " + fileContent);
 });
 
 // In this file you can include the rest of your app's specific main process
