@@ -1,13 +1,7 @@
-Write-Host 'script is executed'
+test testest
+t
+t
+t
 
-
-
-
-
-
-
-
-
-
-
-Write-Host 'script is executed'
+t
+t

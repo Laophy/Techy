@@ -44,7 +44,7 @@ function App() {
       var outarr = new Array();
       if (lineCountCache !== lineCount) {
         for (var x = 0; x < lineCount; x++) {
-          outarr[x] = x + 1 + ".";
+          outarr[x] = x + 1 + " ";
         }
         lineCounter.value = outarr.join("\n");
       }
@@ -57,19 +57,19 @@ function App() {
 
   return (
     <div className="App">
-      <textarea id="lineCounter" wrap="off" readonly defaultValue={"1."} />
+      <textarea id="lineCounter" wrap="off" defaultValue={"1 "} disabled />
       <textarea
         id="codeEditor"
         wrap="off"
         cols="1"
-        rows="150"
+        rows="170"
         onChange={(e) => {
           setData(e.target.value);
           setLoader(false);
         }}
         defaultValue={data}
       />
-      <div style={{ padding: "15px" }}>
+      <div style={{ padding: "5px", marginTop: "-20px" }}>
         <p style={{ fontSize: "24px" }}>
           Current File:{" "}
           <b style={{ textDecoration: "underline" }}>
@@ -79,7 +79,12 @@ function App() {
         <button
           className="button"
           id="button"
-          style={{ width: "140px", height: "45px", margin: "10px" }}
+          style={{
+            width: "140px",
+            height: "45px",
+            margin: "10px",
+            marginTop: "-20px",
+          }}
           onClick={() => {
             loadStuff();
           }}
@@ -89,7 +94,12 @@ function App() {
         <button
           className="button"
           id="button"
-          style={{ width: "140px", height: "45px", margin: "10px" }}
+          style={{
+            width: "140px",
+            height: "45px",
+            margin: "10px",
+            marginTop: "-20px",
+          }}
           onClick={() => {
             submitStuff(data);
           }}
