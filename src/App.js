@@ -52,7 +52,7 @@ function App() {
       }
     });
 
-    var lineCountCache = 0;
+    var lineCountCache = 21;
     function line_counter() {
       var lineCount = codeEditor.value.split("\n").length;
       var outarr = new Array();
@@ -97,7 +97,13 @@ function App() {
           >
             Save
           </li>
-          <li>Help</li>
+          <li
+            onClick={() => {
+              window.api.showMessage();
+            }}
+          >
+            Help
+          </li>
           <li style={{ float: "right", color: "yellow" }}>
             export/script.ps1 - {loader ? "(Saved!)" : "(Unsaved Changes)"}
           </li>

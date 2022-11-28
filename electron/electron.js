@@ -73,5 +73,23 @@ ipcMain.on("loadscript", (event, data) => {
   }
 });
 
+ipcMain.on("showMessage", (event) => {
+  const options = {
+    type: "warning",
+    buttons: ["Cancel", "Yes, please", "No, thanks"],
+    defaultId: 2,
+    title: "Help",
+    message: "Visit the links below for more informations.",
+    detail: "Techy help center:",
+    checkboxLabel: "Show next time?",
+    checkboxChecked: true,
+  };
+
+  dialog.showMessageBox(null, options, (response, checkboxChecked) => {
+    console.log(response);
+    console.log(checkboxChecked);
+  });
+});
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
