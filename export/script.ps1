@@ -1,7 +1,7 @@
 ## Define the service name in a variable
 $ServiceName = 'EventLog'
 
-## Read the service from Windows to return a service object
+## Read the service from Windows to return a service object 
 $ServiceInfo = Get-Service -Name $ServiceName
 
 ## If the server is not running (ne)

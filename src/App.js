@@ -7,17 +7,17 @@ function App() {
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    Notes();
+    loadScript();
   }, []);
 
-  function Notes() {
+  const loadScript = () => {
     fetch(textfile)
       .then((response) => response.text())
       .then((textContent) => {
         setData(textContent);
       });
     return data || "Loading...";
-  }
+  };
 
   const submitStuff = (data) => {
     window.api.send(data);
@@ -41,14 +41,20 @@ function App() {
     });
 
     codeEditor.addEventListener("keydown", (e) => {
-      let { keyCode } = e;
-      let { value, selectionStart, selectionEnd } = codeEditor;
-      if (keyCode === 9) {
-        // TAB = 9
-        e.preventDefault();
-        codeEditor.value =
-          value.slice(0, selectionStart) + "\t" + value.slice(selectionEnd);
-        codeEditor.setSelectionRange(selectionStart + 2, selectionStart + 2);
+      var textareas = document.getElementsByTagName("textarea");
+      var count = textareas.length;
+      for (var i = 0; i < count; i++) {
+        textareas[i].onkeydown = function (e) {
+          if (e.keyCode === 9 || e.which === 9) {
+            e.preventDefault();
+            var s = this.selectionStart;
+            this.value =
+              this.value.substring(0, this.selectionStart) +
+              "\t" +
+              this.value.substring(this.selectionEnd);
+            this.selectionEnd = s + 1;
+          }
+        };
       }
     });
 
@@ -105,7 +111,7 @@ function App() {
             Help
           </li>
           <li style={{ float: "right", color: "yellow" }}>
-            export/script.ps1 - {loader ? "(Saved!)" : "(Unsaved Changes)"}
+            export/script.ps1 - {loader ? <b>(Saved)</b> : <b>(Unsaved)</b>}
           </li>
         </ul>
       </div>
