@@ -1,9 +1,23 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import textfile from "./base.txt";
 
 function App() {
-  const [data, setData] = useState("Write-Host 'script is executed'");
+  const [data, setData] = useState("");
   const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    Notes();
+  }, []);
+
+  function Notes() {
+    fetch(textfile)
+      .then((response) => response.text())
+      .then((textContent) => {
+        setData(textContent);
+      });
+    return data || "Loading...";
+  }
 
   const submitStuff = (data) => {
     window.api.send(data);
@@ -57,55 +71,54 @@ function App() {
 
   return (
     <div className="App">
-      <textarea id="lineCounter" wrap="off" defaultValue={"1 "} disabled />
-      <textarea
-        id="codeEditor"
-        wrap="off"
-        cols="1"
-        rows="170"
-        onChange={(e) => {
-          setData(e.target.value);
-          setLoader(false);
+      <div
+        className="filebar"
+        style={{
+          width: "100%",
+          height: "45px",
+          backgroundColor: "#474747",
         }}
-        defaultValue={data}
-      />
-      <div style={{ padding: "5px", marginTop: "-20px" }}>
-        <p style={{ fontSize: "24px" }}>
-          Current File:{" "}
-          <b style={{ textDecoration: "underline" }}>
+      >
+        <ul>
+          <li>[TECHY]</li>
+          <li>File</li>
+          <li>Edit</li>
+          <li
+            onClick={() => {
+              loadStuff();
+            }}
+          >
+            Load
+          </li>
+          <li
+            onClick={() => {
+              submitStuff(data);
+            }}
+          >
+            Save
+          </li>
+          <li>Help</li>
+          <li style={{ float: "right", color: "yellow" }}>
             export/script.ps1 - {loader ? "(Saved!)" : "(Unsaved Changes)"}
-          </b>
-        </p>
-        <button
-          className="button"
-          id="button"
-          style={{
-            width: "140px",
-            height: "45px",
-            margin: "10px",
-            marginTop: "-20px",
+          </li>
+        </ul>
+      </div>
+      <div
+        className="codepen"
+        style={{ width: "100%", height: "100%", float: "left" }}
+      >
+        <textarea id="lineCounter" wrap="off" defaultValue={"1 "} disabled />
+        <textarea
+          id="codeEditor"
+          wrap="off"
+          cols="1"
+          rows="200"
+          onChange={(e) => {
+            setData(e.target.value);
+            setLoader(false);
           }}
-          onClick={() => {
-            loadStuff();
-          }}
-        >
-          Load
-        </button>
-        <button
-          className="button"
-          id="button"
-          style={{
-            width: "140px",
-            height: "45px",
-            margin: "10px",
-            marginTop: "-20px",
-          }}
-          onClick={() => {
-            submitStuff(data);
-          }}
-        >
-          Save
-        </button>
+          defaultValue={data}
+        />
       </div>
     </div>
   );

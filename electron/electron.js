@@ -24,7 +24,7 @@ function createWindow() {
   win.webContents.openDevTools();
 
   //either use the removeMenu() function
-  //win.removeMenu();
+  win.removeMenu();
 }
 
 // This method will be called when Electron has finished
@@ -64,11 +64,13 @@ ipcMain.on("loadscript", (event, data) => {
   const file = dialog.showOpenDialogSync({
     properties: ["openFile"],
   });
-  const content = fs.readFileSync(file[0]); // returns a buffer
-  const fileContent = content.toString();
+  if (file) {
+    const content = fs.readFileSync(file[0]); // returns a buffer
+    const fileContent = content.toString();
 
-  //Final string to return to client?
-  console.log("SCRIPT FILE: " + fileContent);
+    //Final string to return to client?
+    console.log("SCRIPT FILE: " + fileContent);
+  }
 });
 
 // In this file you can include the rest of your app's specific main process
