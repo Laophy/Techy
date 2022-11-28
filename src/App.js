@@ -6,18 +6,19 @@ function App() {
   const [data, setData] = useState("");
   const [loader, setLoader] = useState(false);
 
-  useEffect(() => {
+  useEffect((data) => {
+    const loadScript = () => {
+      fetch(textfile)
+        .then((response) => response.text())
+        .then((textContent) => {
+          setData(textContent);
+        });
+      return data || "Loading...";
+    };
+
     loadScript();
   }, []);
 
-  const loadScript = () => {
-    fetch(textfile)
-      .then((response) => response.text())
-      .then((textContent) => {
-        setData(textContent);
-      });
-    return data || "Loading...";
-  };
 
   const submitStuff = (data) => {
     window.api.send(data);
@@ -58,10 +59,10 @@ function App() {
       }
     });
 
-    var lineCountCache = 21;
+    var lineCountCache = 0;
     function line_counter() {
       var lineCount = codeEditor.value.split("\n").length;
-      var outarr = new Array();
+      var outarr = [];
       if (lineCountCache !== lineCount) {
         for (var x = 0; x < lineCount; x++) {
           outarr[x] = x + 1 + " ";
