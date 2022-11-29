@@ -1,10 +1,6 @@
 # Getting Started With TECHY
 
-<<<<<<< HEAD
 This project was created by **Jordan Pessman**.
-=======
-This project was created by **Jordan Pessman**. 
->>>>>>> 79f07c8c997596f761d248b05e6b281b9cbf8bb0
 © 2022 Techy, All rights reserved.
 
 ## Start Guide
