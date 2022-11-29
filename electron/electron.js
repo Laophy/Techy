@@ -3,6 +3,7 @@ const electron = require("electron");
 const { ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
+const { shell } = require("electron");
 
 function createWindow() {
   // Create the browser window.
@@ -93,5 +94,19 @@ ipcMain.on("GET_FILE", (event, data) => {
   }
 });
 
+ipcMain.on("RUN_FILE", (event, file) => {
+  // To open file in write and read mode,
+  // create file if doesn't exists.
+  if (file) {
+    fs.open(file, "r", function (err, f) {
+      if (err) {
+        return console.error(err);
+      }
+      //console.log(f);
+      shell.openPath(file);
+      console.log("File Opened: " + file);
+    });
+  }
+});
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

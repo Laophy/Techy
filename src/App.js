@@ -32,6 +32,14 @@ function App() {
     window.api.sendData("GET_FILE", data);
   };
 
+  const runFile = (file) => {
+    if (file) {
+      window.api.sendData("RUN_FILE", file[0]);
+    } else {
+      console.log("No File Selected!");
+    }
+  };
+
   var codeEditor = document.getElementById("codeEditor");
   var lineCounter = document.getElementById("lineCounter");
 
@@ -106,10 +114,10 @@ function App() {
           </li>
           <li
             onClick={() => {
-              window.api.showMessage();
+              runFile(filePath);
             }}
           >
-            Help
+            Run
           </li>
           <li style={{ float: "right", color: "yellow" }}>
             {filePath} - {loader ? <b>(Saved)</b> : <b>(Unsaved)</b>}
