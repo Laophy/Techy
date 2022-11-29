@@ -7,4 +7,5 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.send(channel, data);
   },
   on: (channel, data) => ipcRenderer.on(channel, data),
+  off: (channel, callback) => ipcRenderer.removeListener(channel, callback),
 });

@@ -16,6 +16,10 @@ function App() {
       } catch (e) {
         //console.log("ERROR: " + e);
       }
+
+      return () => {
+        window.api.off("GET_FILE", data); // garbage collector
+      };
     });
   }, []);
 
@@ -24,7 +28,7 @@ function App() {
       window.api.sendData("SAVE_FILE", { file: data, path: filePath[0] });
       setLoader(true);
     } else {
-      console.log("No File Selected!");
+      alert("No File Selected!");
     }
   };
 
@@ -36,7 +40,7 @@ function App() {
     if (file) {
       window.api.sendData("RUN_FILE", file[0]);
     } else {
-      console.log("No File Selected!");
+      alert("No File Selected!");
     }
   };
 
@@ -80,6 +84,9 @@ function App() {
       lineCountCache = lineCount;
     }
     codeEditor.addEventListener("input", () => {
+      line_counter();
+    });
+    codeEditor.addEventListener("mousemove", () => {
       line_counter();
     });
   }
