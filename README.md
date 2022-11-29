@@ -1,6 +1,7 @@
 # Getting Started With TECHY
 
-This project was created by **Jordan Pessman**. © 2022 Techy, All rights reserved.
+This project was created by **Jordan Pessman**.
+© 2022 Techy, All rights reserved.
 
 ## Start Guide
 
