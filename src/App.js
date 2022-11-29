@@ -7,6 +7,14 @@ function App() {
   const [filePath, setFilePath] = useState(undefined);
 
   useEffect(() => {
+    try {
+      fileEvent();
+    } catch (err) {
+      console.log("ERROR: " + err);
+    }
+  }, []);
+
+  const fileEvent = () => {
     window.api.on("GET_FILE", (event, arg) => {
       try {
         setData(arg.data);
@@ -21,19 +29,27 @@ function App() {
         window.api.off("GET_FILE", data); // garbage collector
       };
     });
-  }, []);
+  };
 
   const saveFile = (data, filePath) => {
-    if (filePath) {
-      window.api.sendData("SAVE_FILE", { file: data, path: filePath[0] });
-      setLoader(true);
-    } else {
-      alert("No File Selected!");
+    try {
+      if (filePath) {
+        window.api.sendData("SAVE_FILE", { file: data, path: filePath[0] });
+        setLoader(true);
+      } else {
+        alert("No File Selected!");
+      }
+    } catch (err) {
+      console.log("ERROR: " + err);
     }
   };
 
   const loadFile = () => {
-    window.api.sendData("GET_FILE", data);
+    try {
+      window.api.sendData("GET_FILE", data);
+    } catch (err) {
+      console.log("ERROR: " + err);
+    }
   };
 
   const runFile = (file) => {
@@ -97,7 +113,7 @@ function App() {
         className="filebar"
         style={{
           width: "100%",
-          height: "45px",
+          height: "55px",
           backgroundColor: "#474747",
         }}
       >
@@ -126,7 +142,14 @@ function App() {
           >
             Run
           </li>
-          <li style={{ float: "right", color: "yellow" }}>
+          <li
+            className="filepath"
+            style={{
+              float: "right",
+              width: "auto",
+              border: "1px solid rgba(0, 0, 0, 0.1)",
+            }}
+          >
             {filePath} - {loader ? <b>(Saved)</b> : <b>(Unsaved)</b>}
           </li>
         </ul>
@@ -135,7 +158,13 @@ function App() {
         className="codepen"
         style={{ width: "100%", height: "100%", float: "left" }}
       >
-        <textarea id="lineCounter" wrap="off" defaultValue={"1 "} disabled />
+        <textarea
+          id="lineCounter"
+          wrap="off"
+          defaultValue={"1 "}
+          disabled
+          spellCheck="false"
+        />
         <textarea
           id="codeEditor"
           wrap="off"
@@ -146,6 +175,7 @@ function App() {
             setLoader(false);
           }}
           defaultValue={data}
+          spellCheck="false"
         />
       </div>
     </div>
