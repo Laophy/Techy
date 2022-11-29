@@ -1,35 +1,35 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import textfile from "./base.txt";
 
 function App() {
   const [data, setData] = useState("");
   const [loader, setLoader] = useState(false);
+  const [filePath, setFilePath] = useState(undefined);
 
-  useEffect((data) => {
-    const loadScript = () => {
-      fetch(textfile)
-        .then((response) => response.text())
-        .then((textContent) => {
-          setData(textContent);
-        });
-      return data || "Loading...";
-    };
-
-    loadScript();
+  useEffect(() => {
+    window.api.on("GET_FILE", (event, arg) => {
+      try {
+        setData(arg.data);
+        setFilePath(arg.path);
+        document.getElementById("codeEditor").value = arg.data;
+        document.getElementById("filepath").value = arg.path;
+      } catch (e) {
+        //console.log("ERROR: " + e);
+      }
+    });
   }, []);
 
-
-  const submitStuff = (data) => {
-    window.api.send(data);
-    console.log(data);
-
-    setLoader(true);
+  const saveFile = (data, filePath) => {
+    if (filePath) {
+      window.api.sendData("SAVE_FILE", { file: data, path: filePath[0] });
+      setLoader(true);
+    } else {
+      console.log("No File Selected!");
+    }
   };
 
-  const loadStuff = () => {
-    console.log("load stuff");
-    window.api.loadScript();
+  const loadFile = () => {
+    window.api.sendData("GET_FILE", data);
   };
 
   var codeEditor = document.getElementById("codeEditor");
@@ -92,14 +92,14 @@ function App() {
           <li>Edit</li>
           <li
             onClick={() => {
-              loadStuff();
+              loadFile();
             }}
           >
             Load
           </li>
           <li
             onClick={() => {
-              submitStuff(data);
+              saveFile(data, filePath);
             }}
           >
             Save
@@ -112,7 +112,7 @@ function App() {
             Help
           </li>
           <li style={{ float: "right", color: "yellow" }}>
-            export/script.ps1 - {loader ? <b>(Saved)</b> : <b>(Unsaved)</b>}
+            {filePath} - {loader ? <b>(Saved)</b> : <b>(Unsaved)</b>}
           </li>
         </ul>
       </div>

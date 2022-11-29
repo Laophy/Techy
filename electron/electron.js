@@ -50,27 +50,14 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.on("script", (event, textVal) => {
-  fs.writeFile(`export/script.ps1`, textVal, (err) => {
+ipcMain.on("SAVE_FILE", (event, data) => {
+  fs.writeFile(data.path, data.file, (err) => {
     if (!err) {
-      console.log("File written");
+      console.log("Saved File: " + data.path);
     } else {
       console.log(err);
     }
   });
-});
-
-ipcMain.on("loadscript", (event, data) => {
-  const file = dialog.showOpenDialogSync({
-    properties: ["openFile"],
-  });
-  if (file) {
-    const content = fs.readFileSync(file[0]); // returns a buffer
-    const fileContent = content.toString();
-
-    //Final string to return to client?
-    console.log("SCRIPT FILE: " + fileContent);
-  }
 });
 
 ipcMain.on("showMessage", (event) => {
@@ -89,6 +76,21 @@ ipcMain.on("showMessage", (event) => {
     console.log(response);
     console.log(checkboxChecked);
   });
+});
+
+ipcMain.on("GET_FILE", (event, data) => {
+  const file = dialog.showOpenDialogSync({
+    properties: ["openFile"],
+  });
+  if (file) {
+    const content = fs.readFileSync(file[0]); // returns a buffer
+    const fileContent = content.toString();
+
+    //Final string to return to client?
+    console.log("Loading File: " + file);
+
+    event.sender.send("GET_FILE", { data: fileContent, path: file });
+  }
 });
 
 // In this file you can include the rest of your app's specific main process
