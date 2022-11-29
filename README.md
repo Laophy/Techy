@@ -8,4 +8,6 @@ This project was created by **Jordan Pessman**. All rights reserved.
 2. Run `npm run start` inside one terminal
 3. Run `npm run electron-dev` inside another terminal
 
-### TECHY intigrates a ReactJS application into Electron
+## Electron
+
+Techy is powered by many different technologies including ReactJS, ElectronJS, NodeJS, HTML, CSS. Techy is designed to be a multi-platform lightweight IDE to quickly create or load different scripts from all sorts of different scripting languages.
